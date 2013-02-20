@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+{% block body %}
+<script type='text/javascript' src="{{ url_for('javascript', filename='jquery.js') }}"> </script>
+<script type=text/javascript>
+  var $SCRIPT_ROOT = {{ request.script_root | tojson | safe }};
+</script>
+
+<h1>Upload new File</h1>
+<form action="" method=post enctype=multipart/form-data>
+  <p><input type=file name=file>
+    <input type=submit value=Upload>
+</form>
+
+{% for filename in filelist %}
+<a href="{{filename}}">{{filename}}</a>
+<br>
+{% endfor %}
+
+
+{% endblock %}

@@ -1,0 +1,97 @@
+{% extends "layout.html" %}
+{% block body %}
+<script type='text/javascript' src="{{ url_for('javascript', filename='jquery.js') }}"> </script>
+<script type=text/javascript>
+  var $SCRIPT_ROOT = {{ request.script_root | tojson | safe }};
+</script>
+
+<form name='article' action="{{ url_for("edit") }}" class='form-horizontal' method=post>
+  <div class='control-group'>
+    <label class='control-label' for='person-input01'>Article ID</label>
+    <div class='controls'>
+      <input type='text' id='input01' name='Aid' class='input-xxlarge' value="{{ article.id }}" >
+    </div>
+  </div>
+
+  <div class='control-group'>
+    <label class='control-label' for='person-input01'>Title</label>
+    <div class='controls'>
+      <input type='text' id='Title' name='Title' class='input-xxlarge' value="{{ article.title }}" >
+    </div>
+  </div>
+
+  <div class='control-group'>
+    <label class='control-label' for='person-input02'>Category</label>
+    <div class='controls'>
+      <input type='text' id='input02' name='Category' value="{{ article.category }}" class='input-xxlarge'>
+    </div>
+  </div>
+  
+  <div class='control-group'>
+    <label class='control-label' for='person-input03'>Date</label>
+    <div class='controls'>
+      <input type='text' id='input03' name='Date_Time' value="{{ article.date_time }}" class='input-xxlarge'>
+    </div>
+  </div>
+
+  <div class='control-group'>
+    <label class='control-label' for='person-textarea'>Contents</label>
+    <div class='controls'>
+      <textarea id='Contents' name='Contents' class='input-xxlarge' rows='10'>{{ article.contents }}</textarea>
+    </div>
+  </div>
+  
+  <div class='form-actions'>
+    <button type='submit' class='btn'>投稿</button>
+  </div>
+</form>
+
+<div id="preview" class="span">
+  <div class="span8">
+    <div class="row">
+      <h2> <p class="text-info">プレビュー</p> </h2>
+    </div>
+  </div>
+
+  <div id="article" class="span8">
+    <div it="title" class="row">
+      <div id="preview-title"><h3>タイトル</h3></div>
+    </div>
+    <div id="date" class="row">
+      <div id="preview-date"> <p class="muted"> yyyy年m月dd日 </p> </div>
+    </div>
+    <div id="contents" class="row">
+      <div id="preview-contents">本文</div>
+    </div>
+    <div id="category-comment" class="row">
+      <div class="span6">
+	<div id="preview-category"><p class="text-info"> カテゴリ:</p></div>
+      </div>
+      <div class="span2">
+	<a href="/archives/{{article.id}}" class="wordbreak"> コメントする </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<script>
+$(function() {
+$('body').keyup(function() {
+$('#preview-title').html('<h2>' +  $('#Title').val()  +  '</h2>');
+$('#preview-date').html('<p class="muted">' + $('#input03').val()  + '</p>');
+$('#preview-category').html('<p class="text-info">カテゴリ:' + $('#input02').val()  + '</p>');
+
+$.getJSON("/preview", {
+contents: $('#Contents').val(),
+},function(data){
+$("#preview-contents").html(data.result);
+});
+
+});
+});
+</script>
+
+{% endblock %}

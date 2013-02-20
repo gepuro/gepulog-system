@@ -1,0 +1,79 @@
+<!DOCTYPE html> 
+<html lang="ja">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="google-site-verification" content="zD2F1MUAerfU_RO_SiibxxSz2DVPKjvkTa52WoNhUnc">
+<title>{{title}}</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+<meta name="keywords" content="勉強,勉強会,データマイニング,テキストマイニング,データサイエンティスト,R,Python,Flask">
+<link rel="shortcut icon" href="http://img.gepuro.net/image/favicon.ico" type="image/gepulog.icon">
+<link rel="icon" href="http://img.gepuro.net/image/favicon.ico" type="image/gepulog.icon">
+
+<!-- Le styles -->
+<link href="{{ url_for('static', filename='bootstrap.css') }}" rel="stylesheet">
+<link href="{{url_for('static', filename='bootstrap-responsive.css') }}" rel="stylesheet">
+
+</head>
+<body>
+
+  <div class="fluid-container">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+	<div class="container">
+          <a class="brand" href="http://gepuro.net">gepuro.net</a>
+          <ul class='nav'>
+	    <li> <a href="http://blog.gepuro.net"> Blog </a></li>
+	    <li> <a href="https://twitter.com/gepuro"> Twitter </a></li>
+	    <li> <a href="http://www.slideshare.net/gepuro"> SlideShare </a></li>
+            <li> <a href="http://www.facebook.com/atsushi.hayakawa.102">Facebook</a></li>
+            <li> <a href="https://github.com/gepuro/">GitHub</a></li>
+            <li> <a href="http://wiki.mma.club.uec.ac.jp/hayakawa">MMA</a></li>
+            <!-- <li> <a href="#contact">Contact</a></li> -->
+          </ul>
+	</div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="page-header">
+	<a href="/"> <img src="http://img.gepuro.net/image/gepulog.png" alt="gepulog" width=700> </a>
+	<p>お勉強のメモ書きとか</p>
+      </div>
+
+      {% block body %}{% endblock %}
+      <hr>
+      <ul class="pager"><li>Powered by <a href="#">gepulog system</a></li></ul>
+      <ul class="pager"><li><p><a href="https://twitter.com/gepuro">@gepuro</a></p></li></ul>
+
+    </div><!--/container-->
+  </div><!--/.fluid-container-->
+
+<script type='text/javascript' src="{{ url_for('javascript', filename='bootstrap.js') }}"> </script>
+
+<script type="text/x-mathjax-config">
+  <!--
+      MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ["\\(","\\)"]] } });
+    -->
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"> </script>
+
+<!-- google-analytics -->
+<script type="text/javascript">
+<!--
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-37803439-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+-->
+</script>
+
+
+</body>
+</html>

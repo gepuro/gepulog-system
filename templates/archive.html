@@ -1,0 +1,139 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<!-- toppage -->
+<div class="row">
+  <div class="span4">
+    <div class="well sidebar-nav">
+      <ul class="nav nav-list">
+        <li class="nav-header">Category</li>
+	{% for category in categories %}
+        <li><a href="/category/{{category.cate}}">{{category.cate}} ({{category.num}})</a></li>
+	{% endfor %}
+        <li> <a href="/list" class="nav-header">最近の投稿(記事一覧へ)</a></li>
+	<ul>
+	{% for article in recentries %}
+        <li><a href="/archives/{{article.id}}">{{article.title}}</a></li>
+	{% endfor %}
+	</ul>
+        <li class="nav-header">リンク</li>
+        <li><a href="http://daringfireball.net/projects/markdown/">DARING FIREBALL</a></li>
+	<li><a href="http://packages.python.org/Markdown/index.html">Python-Markdown</a></li>
+        <li><a href="http://genkuroki.web.fc2.com/">MathJaxの使い方</a></li>
+      </ul>
+    </div>
+    <div id="google-CustomSearch">
+      <script>
+	(function() {
+	var cx = '008516276337712587661:t24k90_ktum';
+	var gcse = document.createElement('script'); gcse.type = 'text/javascript'; gcse.async = true;
+	gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(gcse, s);
+	})();
+      </script>
+      <gcse:search></gcse:search>
+    </div>
+  </div>
+
+  <div class="span7">
+    {% for article in articles %}
+    <div class="span7">
+      <div id="article" class="span8">
+	<div id="title" class="row">
+	  <h2> {{ article.title }} </h2>
+	</div>
+	<div id="date" class="row">
+	  <div class="span3">
+	    <p class="muted"> {{ article.date_time }}</p>
+	  </div>
+	  <div class="span5">
+	      {% for category in article.category %}
+	      {% if not category == "" %}
+	      <a href="/category/{{category}}" class="label"> {{ category }} </a>
+	      {% endif %}
+	      {% endfor %}
+	  </div>
+	</div>
+
+	<div id="contents" class="row">
+	 {{ article.contents|safe}}
+	</div>
+
+	<div id="social" class="row">
+	  <div class="span2">
+	    <a href="https://twitter.com/share" class="twitter-share-button" data-via="gepuro" data-lang="ja">ツイート</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+	  </div>
+	  <div class="span2">
+	    <iframe title="facebook" src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fblog.gepuro.net&amp;send=false&amp;layout=button_count&amp;width=450&amp;show_faces=true&amp;font=arial&amp;colorscheme=light&amp;action=like&amp;height=21" style="border:none; overflow:hidden; width:450px; height:21px;"></iframe>
+	  </div>
+	  <div class="span2">
+	  <a href="http://www.tumblr.com/share" title="Share on Tumblr" style="display:inline-block; text-indent:-9999px; overflow:hidden; width:81px; height:20px; background:url('http://platform.tumblr.com/v1/share_1.png') top left no-repeat transparent;">Share on Tumblr</a>
+	  </div>
+	  <div class="span2">
+	  <a href="http://b.hatena.ne.jp/entry/" class="hatena-bookmark-button" data-hatena-bookmark-layout="simple" title="このエントリーをはてなブックマークに追加"><img src="http://b.st-hatena.com/images/entry-button/button-only.gif" alt="このエントリーをはてなブックマークに追加" width="20" height="20" style="border: none;"></a><script type="text/javascript" src="http://b.st-hatena.com/js/bookmark_button.js" charset="utf-8" async="async"></script>
+	  </div>
+	</div> <!-- social -->
+
+      </div>
+    </div>
+    {% else %}
+    <p class="text-error"> Unbelievable. No entries here so far</p>
+    {% endfor %}
+
+    <div id="facebook" class="span8">
+      <div class="fb-comments" data-href="http://blog.gepuro.net/archives/{{aid}}" data-width="470" data-num-posts="2"></div>
+    </div>
+
+    <div id="twitter" class="span8">
+      <script type="text/javascript" src="http://widgets.twimg.com/j/2/widget.js"></script>
+      <script type="text/javascript">
+	new TWTR.Widget({
+	version: 2,
+	type: 'search',
+	search: 'http://blog.gepuro.net/archives/{{aid}}',
+	interval: 6000,
+	subject: '{{title}}',
+	width: 470,
+	height: 200,
+	theme: {
+	shell: {
+	background: '#8ec1da',
+	color: '#ffffff'
+	},
+	tweets: {
+	background: '#ffffff',
+	color: '#444444',
+	links: '#1985b5'
+	}
+	},
+	features: {
+	scrollbar: false,
+	loop: true,
+	live: true,
+	hashtags: true,
+	timestamp: true,
+	avatars: true,
+	toptweets: true,
+	behavior: 'default'
+	}
+	}).render().start();
+      </script>
+    </div>
+
+
+  </div><!--/span9-->
+</div><!--/row-->
+
+<script type="text/javascript">
+  (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/ja_JP/all.js#xfbml=1&appId=330065303768677";
+      fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+</script>
+
+{% endblock %}

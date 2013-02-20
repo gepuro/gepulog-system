@@ -1,0 +1,72 @@
+{% extends "layout.html" %}
+{% block body %}
+
+<!-- toppage -->
+<div class="row">
+  <div class="span4">
+    <div class="well sidebar-nav">
+      <ul class="nav nav-list">
+        <li class="nav-header">Category</li>
+	{% for category in categories %}
+        <li><a href="/category/{{category.cate}}">{{category.cate}} ({{category.num}})</a></li>
+	{% endfor %}
+        <li> <a href="/list" class="nav-header">最近の投稿(記事一覧へ)</a></li>
+	<ul>
+	{% for article in recentries %}
+        <li><a href="/archives/{{article.id}}" >{{article.title}}</a></li>
+	{% endfor %}
+	</ul>
+        <li class="nav-header">リンク</li>
+        <li><a href="http://daringfireball.net/projects/markdown/">DARING FIREBALL</a></li>
+	<li><a href="http://packages.python.org/Markdown/index.html">Python-Markdown</a></li>
+        <li><a href="http://genkuroki.web.fc2.com/">MathJaxの使い方</a></li>
+      </ul>
+    </div>
+    <div id="google-CustomSearch">
+      <script>
+	(function() {
+	var cx = '008516276337712587661:t24k90_ktum';
+	var gcse = document.createElement('script'); gcse.type = 'text/javascript'; gcse.async = true;
+	gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+        '//www.google.com/cse/cse.js?cx=' + cx;
+	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(gcse, s);
+	})();
+      </script>
+      <gcse:search></gcse:search>
+    </div>
+  </div>
+
+  <div class="span7">
+    <ul>
+    {% for article in articles %}
+    <li>
+      <span class="muted"> {{ article.date_time }}</span>
+      <ul>
+	<li>
+	{% for category in article.category %}
+	<a href="/category/{{category}}" class="label">{{category}}</a>
+	{% endfor %}
+	<a href="/archives/{{article.id}}"> {{ article.title }} </a>
+	</li>
+      </ul>
+    </li>
+    {% endfor %}
+    </ul>
+
+    <div id="pagination" class="span9">
+      {% if not pagination.last %}
+      <div class="span4">
+	<a href={{pagination.older}}> << Older </a>
+      </div>
+      {% endif %}
+      {% if pagination.newer !="/list/0" %}
+      <div class="span4">
+	<a href={{pagination.newer}}> Newer >> </a>
+      </div>
+      {% endif %}
+    </div>
+
+  </div><!--/span9-->
+</div><!--/row-->
+
+{% endblock %}

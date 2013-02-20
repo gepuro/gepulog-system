@@ -4,6 +4,10 @@ gepulog-system
 blog system
 
 SQLiteとFlaskによるブログシステムです。
+http://blog.gepuro.net/
+に稼働中のブログがあります。
+
+
 $ python blog.py
 で起動します。
 

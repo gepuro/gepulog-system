@@ -50,7 +50,7 @@ USERNAME = conf.get('credential', 'username')
 PASSWORD = conf.get('credential', 'password')
 host = conf.get('options','host')
 port     = conf.get('options','port')
-DEBUG = conf.get('options','DEBUG')
+DEBUG = False
 
 SECRET_KEY = 'cc8d8183d8e0fe9debb619ddd5b8fa5a'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif', 'JPG'])
@@ -94,6 +94,8 @@ def image(filename):
 def notation(text):
     html =  markdown.markdown(text, ['tables'])
     html = html.replace("<table>", "<table class='table'>")
+    html = html.replace("<h3>", '<h3 style="border-left:solid 3px blue;"">')
+    html = html.replace("<h4>", '<h4 style="border-left:solid 3px blue;"">')
     return html
 
 def allowed_file(filename):
@@ -114,11 +116,17 @@ class Base:
     def start_page(self,show_artcile,page):
         page = self.page_condition(page)
         return ( page - 1 ) * show_artcile
-    def page_info(self,show_artcile,page,articles_len,name="page"):
+    def page_info(self,show_artcile,page,articles_len,name="page",category=""):
         pagination = {}
         page = self.page_condition(page)
-        pagination["older"] = "/" + name + "/" + str(page+1)
-        pagination["newer"] = "/" + name + "/" + str(page-1)
+        if category == "":
+            pagination["older"] = "/" + name + "/" + str(page+1)
+            pagination["newer"] = "/" + name + "/" + str(page-1)
+        else:
+            pagination["older"] = "/" + "category" + "/" + category + "/" + str(page+1)
+            pagination["newer"] = "/" + "category" + "/" + category + "/" + str(page-1)
+
+        pagination["recentry"] = page in [0,1]
         pagination["last"] = articles_len != show_artcile # 最後のページかどうか
         return pagination
     def article(self,show_artcile=10,page=1):
@@ -233,9 +241,10 @@ def category_page(category, page):
     base = Base()
     start = base.start_page(show_artcile,page)
     try:
-        aid = base.sidebar_db["category"][category][start:(start+show_artcile)]
+        aid = base.sidebar_db["category"][category][::-1][start:(start+show_artcile)]
     except:
         abort(404)
+    aid.reverse()
     articles = base.article_specified_id(aid)
     if len(articles) == 0:
         abort(404)
@@ -243,7 +252,7 @@ def category_page(category, page):
                            articles = articles,
                            categories = base.sidebar_db["category_num"],
                            recentries = base.sidebar_db["recentry"],
-                           pagination = base.page_info(show_artcile, page, len(articles)),
+                           pagination = base.page_info(show_artcile, page, len(articles), category=category),
                            active_category = category,
                            title = category + " - gepulog")
 
@@ -265,6 +274,18 @@ def listp(page):
 @app.route('/robots.txt')
 def robots():
     return ""
+
+# 外部API
+@app.route('/list_api')
+def list_api():
+    base = Base()
+    show_artcile = 5
+    articles = base.article(show_artcile)
+    if len(articles) == 0:
+        return jsonify(result = "{}")
+    else:
+        return jsonify(result = articles)
+
 
 # 以下 編集者用
 @app.route('/login', methods=['GET', 'POST'])
